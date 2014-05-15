@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Instaphoto</title>
+</head>
+<body>
+
+<h1>Feed</h1>
+
+<div>
+    <div th:each="photo : ${photos}">
+        <a th:href="|/details/${photo.id}|"><img th:src="|/photos/${photo.id}|" /></a> <br />
+        <span th:text="${photo.date}">now</span>
+    </div>
+</div>
+
+</body>
+</html>

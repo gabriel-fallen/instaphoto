@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Instaphoto</title>
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+
+<h1>Details</h1>
+
+<div>
+    <img th:src="|/photos/${photo.id}|" /> <br />
+    <span th:text="${photo.date}">now</span>
+
+    <hr />
+
+    <div id="comments">
+
+    </div>
+
+    <hr />
+
+    <div>
+        <strong>Add your comment:</strong><br />
+        <div>
+            <label for="text">Comment:</label>
+            <input id="text" />
+            <button onclick="addComment();">Add</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+    function loadComments(){
+        var url = "/comments/";
+        url += /*[[${photo.id}]]*/ "30";
+        $.get(url, function(comments){
+            $('#comments').html('');
+            comments.forEach(function(comment){
+                var html = '<div><span>';
+                html += comment.author.login;
+                html += ': </span><br /><span>';
+                html += comment.text;
+                html += '</span></div>';
+                $('#comments').append(html);
+            });
+        });
+    };
+
+    function addComment(){
+        var txt = $('input#text').val();
+        var url = "/comments/";
+        url += /*[[${photo.id}]]*/ "30";
+        $.post(url, {'text': txt}, function(){
+            $('input#text').val('');
+            loadComments();
+        });
+    };
+
+    $(loadComments);
+/*]]>*/
+</script>
+
+</body>
+</html>
